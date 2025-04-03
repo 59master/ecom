@@ -30,3 +30,20 @@ To run the tests, you can use the following command:
 ```bash
 make test
 ```
+
+
+localhost:8080/api/v1/register
+{
+    "firstName":"Key",
+    "lastName":"woo",
+    "email":"kwoo@kwoo.com",
+    "password":"password0123!"
+}
+
+localhost:8080/api/v1/login
+{
+    "email":"kwoo@kwoo.com",
+    "password":"password0123!"
+}
+
+

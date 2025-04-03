@@ -14,6 +14,9 @@ import (
 )
 
 type Handler struct {
+	// injecting dependence to routes handler. This is a common pattern in Go
+	// This is a common pattern in Go. It allows us to inject dependencies into our handlers. This is useful for testing because we can easily mock the dependencies. It also makes our code more modular and easier to reason about.
+	// It says this handler depends on a UserStore.
 	store types.UserStore
 }
 
@@ -21,6 +24,8 @@ func NewHandler(store types.UserStore) *Handler {
 	return &Handler{store: store}
 }
 
+// gorilla/mux implements a request router and dispatcher for matching incoming requests to their respective handler
+// The name mux stands for "HTTP request multiplexer". Like the standard http.ServeMux, mux.Router matches incoming requests against a list of registered routes and calls a handler for the route that matches the URL or other conditions.
 func (h *Handler) RegisterRoutes(router *mux.Router) {
 	router.HandleFunc("/login", h.handleLogin).Methods("POST")
 	router.HandleFunc("/register", h.handleRegister).Methods("POST")
@@ -64,12 +69,15 @@ func (h *Handler) handleLogin(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) handleRegister(w http.ResponseWriter, r *http.Request) {
+	// get JSON payload
 	var user types.RegisterUserPayload
 	if err := utils.ParseJSON(r, &user); err != nil {
 		utils.WriteError(w, http.StatusBadRequest, err)
+		// docs on golang http status codes: https://golang.org/pkg/net/http/#pkg-constants
 		return
 	}
 
+	// validate payload
 	if err := utils.Validate.Struct(user); err != nil {
 		errors := err.(validator.ValidationErrors)
 		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("invalid payload: %v", errors))

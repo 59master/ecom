@@ -5,7 +5,7 @@ import (
 )
 
 type User struct {
-	ID        int       `json:"id"`
+	ID        int       `json:"id"` // the `json:"id"` is a struct tag
 	FirstName string    `json:"firstName"`
 	LastName  string    `json:"lastName"`
 	Email     string    `json:"email"`
@@ -74,6 +74,9 @@ type CreateProductPayload struct {
 	Quantity    int     `json:"quantity" validate:"required"`
 }
 
+// the `json:"firstName"` is a struct tag
+// it tells the JSON encoder/decoder to use the `firstName` key in the JSON payload
+// THIS IS KNOW AS SERIALIZATION/DESERIALIZATION OR MARSHALLING/UNMARSHALLING
 type RegisterUserPayload struct {
 	FirstName string `json:"firstName" validate:"required"`
 	LastName  string `json:"lastName" validate:"required"`

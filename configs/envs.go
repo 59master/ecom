@@ -19,6 +19,8 @@ type Config struct {
 	JWTExpirationInSeconds int64
 }
 
+// This creates a singleton of the Config struct
+// This is a common pattern in Go to create a singleton of a struct
 var Envs = initConfig()
 
 func initConfig() Config {
@@ -32,7 +34,7 @@ func initConfig() Config {
 		DBAddress:              fmt.Sprintf("%s:%s", getEnv("DB_HOST", "127.0.0.1"), getEnv("DB_PORT", "3306")),
 		DBName:                 getEnv("DB_NAME", "ecom"),
 		JWTSecret:              getEnv("JWT_SECRET", "not-so-secret-now-is-it?"),
-		JWTExpirationInSeconds: getEnvAsInt("JWT_EXPIRATION_IN_SECONDS", 3600 * 24 * 7),
+		JWTExpirationInSeconds: getEnvAsInt("JWT_EXPIRATION_IN_SECONDS", 3600*24*7),
 	}
 }
 

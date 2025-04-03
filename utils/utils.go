@@ -8,6 +8,7 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
+// this is a singleton instance of the validator
 var Validate = validator.New()
 
 func WriteJSON(w http.ResponseWriter, status int, v any) error {
@@ -20,6 +21,8 @@ func WriteError(w http.ResponseWriter, status int, err error) {
 	WriteJSON(w, status, map[string]string{"error": err.Error()})
 }
 
+// Encoding: The process of converting data (like a Python dictionary or a Swift object) into a JSON string.
+// Decoding: The process of converting a JSON string into data (like a Python dictionary or a Swift object).
 func ParseJSON(r *http.Request, v any) error {
 	if r.Body == nil {
 		return fmt.Errorf("missing request body")
@@ -31,7 +34,7 @@ func ParseJSON(r *http.Request, v any) error {
 func GetTokenFromRequest(r *http.Request) string {
 	tokenAuth := r.Header.Get("Authorization")
 	tokenQuery := r.URL.Query().Get("token")
-	
+
 	if tokenAuth != "" {
 		return tokenAuth
 	}

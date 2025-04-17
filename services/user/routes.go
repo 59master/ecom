@@ -14,9 +14,10 @@ import (
 )
 
 type Handler struct {
-	// injecting dependence to routes handler. This is a common pattern in Go
+	// injecting dependency to routes handler. This is a common pattern in Go
 	// This is a common pattern in Go. It allows us to inject dependencies into our handlers. This is useful for testing because we can easily mock the dependencies. It also makes our code more modular and easier to reason about.
 	// It says this handler depends on a UserStore.
+	// Dependency injection is a design pattern where an object receives its dependencies from external sources rather than creating them itself. This promotes loose coupling, making code more modular, testable, and maintainable. Here's an example using constructor injection in Go
 	store types.UserStore
 }
 
@@ -26,6 +27,8 @@ func NewHandler(store types.UserStore) *Handler {
 
 // gorilla/mux implements a request router and dispatcher for matching incoming requests to their respective handler
 // The name mux stands for "HTTP request multiplexer". Like the standard http.ServeMux, mux.Router matches incoming requests against a list of registered routes and calls a handler for the route that matches the URL or other conditions.
+// It is handled by the gorilla/mux package, which is a powerful URL router and dispatcher for golang. It allows you to define routes with variables, regular expressions, and more. It also supports middleware, which is a way to run code before or after your handler.
+// The gorilla/mux package is a powerful URL router and dispatcher for golang. It allows you to define routes with variables, regular expressions, and more. It also supports middleware, which is a way to run code before or after your handler.
 func (h *Handler) RegisterRoutes(router *mux.Router) {
 	router.HandleFunc("/login", h.handleLogin).Methods("POST")
 	router.HandleFunc("/register", h.handleRegister).Methods("POST")

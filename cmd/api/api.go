@@ -24,6 +24,13 @@ func NewAPIServer(addr string, db *sql.DB) *APIServer {
 	}
 }
 
+// Run starts the API server and listens for incoming requests
+// It uses the gorilla/mux router to handle routing.
+// The server listens on the address specified in the addr field.
+// It registers the routes for the user, product, and order services.
+// It also serves static files from the "static" directory.
+// The server uses the http.ListenAndServe function to start the server.
+// The server will block until it is stopped or an error occurs.
 func (s *APIServer) Run() error {
 	router := mux.NewRouter()
 	subrouter := router.PathPrefix("/api/v1").Subrouter()
@@ -31,7 +38,7 @@ func (s *APIServer) Run() error {
 	userStore := user.NewStore(s.db)
 	userHandler := user.NewHandler(userStore)
 	userHandler.RegisterRoutes(subrouter)
-
+	// TODO: Stopped right here
 	productStore := product.NewStore(s.db)
 	productHandler := product.NewHandler(productStore, userStore)
 	productHandler.RegisterRoutes(subrouter)
